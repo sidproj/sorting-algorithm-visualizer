@@ -1,0 +1,24 @@
+
+.data-container{
+    display: flex;
+    width:80%;
+    height:43em;
+    align-items: end;
+    justify-content: space-evenly;
+    margin-left: 10%;
+    margin-right: 10%;
+}
+
+.data-bar{
+    margin-left:1px;
+    margin-right:1px;
+    display:block;
+    min-width:2px;
+    max-width:20em;
+    width:100%;
+}
+
+li:hover{
+    color: #1ce1ac;
+    font-weight: 700;
+}
