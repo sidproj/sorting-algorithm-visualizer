@@ -128,7 +128,7 @@ const selectionSort = async(data,setData,time ,active,setActive)=>{
         let temp = newData[min];
         newData[min] = newData[i];
         newData[i]=temp;
-        setData(newData);
+        setData([...newData]);
         await sleep(time);
     }
     sortingComplete(data,setData,time ,active,setActive );
@@ -153,6 +153,8 @@ const insertionSort = async(data,setData,time ,active,setActive)=>{
             let newActives = [...active];
             newActives=[j];
             setActive(newActives);
+            setData(newData);
+            await sleep(time);
         }
         newData[j+1]=current;
         setData(newData);
@@ -167,6 +169,34 @@ const insertionSort = async(data,setData,time ,active,setActive)=>{
     sortingComplete(data,setData,time ,active,setActive);
 }
 
+//better version insertion sort time(worts) = 0(nlogn)
+const shellSort = async(data,setData,time,active,setActive)=>{
+
+
+    for(let gap = Math.floor(data.length/2) ; gap >0 ; gap=Math.floor(gap/2)){
+
+        for(let i = gap ; i<data.length ; i++){
+
+            let current = data[i];
+            let j;
+
+            for(j=i; j >= gap && data[j-gap] > current ; j=j-gap){
+                
+                data[j] = data[j-gap];
+
+                let newActives = [...active];
+                newActives=[j,j-gap];
+                setActive(newActives);
+                setData([...data]);
+                await sleep(time);
+            }
+            data[j] = current;
+            setData([...data]);
+            await sleep(time);
+        }
+    }
+    sortingComplete(data,setData,time,active,setActive);
+}
 
 //triger for merge sort
 const beginMergeSort=async (data,setData,time ,active,setActive)=>{
@@ -282,6 +312,7 @@ const quickSort = async (arr,leftIndex,rightIndex,data,setData,time ,active,setA
     await quickSort(arr,leftPointer+1,rightIndex,data,setData,time ,active,setActive);
 }
 
+
 //partition is the main login aside form recursion in quick sort
 const partition = async (arr,leftIndex,rightIndex,data,setData,time ,active,setActive)=>{
 
@@ -302,4 +333,44 @@ const partition = async (arr,leftIndex,rightIndex,data,setData,time ,active,setA
 }
 
 
-export {bubbleSort,cockTailSort,selectionSort,insertionSort,beginMergeSort as mergeSort,beginQuickSort as quickSort};//,selectionSort;
+
+const sortPartition = (arr,leftIndex,rightIndex)=>{
+    
+    const pivot = rightIndex;
+
+    while(leftIndex < rightIndex){
+
+        while( arr[leftIndex] <= arr[pivot] && leftIndex < rightIndex){
+            leftIndex++;
+        }
+        while(arr[rightIndex] >= arr[pivot] && leftIndex < rightIndex){
+            rightIndex--;
+        }
+        const temp = arr[leftIndex];
+        arr[leftIndex] = arr[rightIndex];
+        arr[rightIndex] = temp;
+    }
+    const temp = arr[leftIndex];
+    arr[leftIndex] = arr[pivot];
+    arr[pivot] = temp;
+    return leftIndex;
+
+}
+
+const sort = (data,leftIndex,rightIndex)=>{
+    if(leftIndex >= rightIndex){
+        return;
+    }
+
+    const leftPointer = sortPartition(data,leftIndex,rightIndex);
+
+    sort(data,leftIndex,leftPointer-1);
+    sort(data,leftPointer+1,rightIndex);
+
+}
+
+const beginSort = (data,setData)=>{
+    sort(data,0,data.length);
+    setData([...data]);
+}
+export {bubbleSort,cockTailSort,selectionSort,insertionSort,beginMergeSort as mergeSort,beginQuickSort as quickSort,shellSort,beginSort as sort};//,selectionSort;
