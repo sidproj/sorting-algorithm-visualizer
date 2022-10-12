@@ -9,24 +9,26 @@ const Header = (props)=>{
 
     const options=[
         {value:1,label:"Bubble Sort"},
-        {value:6,label:"Cocktail Sort"},
-        {value:2,label:"Selection Sort"},
-        {value:3,label:"Insertion Sort"},
-        {value:7,label:"Shell Sort"},
-        {value:4,label:"Merge Sort"},
-        {value:5,label:"Quick Sort"},
+        {value:2,label:"Cocktail Sort"},
+        {value:3,label:"Selection Sort"},
+        {value:4,label:"Insertion Sort"},
+        {value:5,label:"Shell Sort"},
+        {value:6,label:"Merge Sort"},
+        {value:7,label:"Quick Sort"},
+        {value:8,label:"Heap Sort"},
     ]
 
     const startSorting = ()=>{
         if(algo){
             switch(algo.value){
                 case 1:props.bubbleSort();break;
-                case 2:props.selectionSort();break;
-                case 3:props.insertionSort();break;
-                case 4:props.mergeSort();break;
-                case 5:props.quickSort();break;
-                case 6:props.cockTailSort();break;
-                case 7:props.shellSort();break;
+                case 2:props.cockTailSort();break;
+                case 3:props.selectionSort();break;
+                case 4:props.insertionSort();break;
+                case 5:props.shellSort();break;
+                case 6:props.mergeSort();break;
+                case 7:props.quickSort();break;
+                case 8:props.heapSort();break;
                 default:window.alert("select a sorting algorith");
             }
         }

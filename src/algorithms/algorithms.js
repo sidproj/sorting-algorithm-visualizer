@@ -198,6 +198,65 @@ const shellSort = async(data,setData,time,active,setActive)=>{
     sortingComplete(data,setData,time,active,setActive);
 }
 
+//heap sort trigger
+const beginHeapSort=async (data,setData,time,active,setActive)=>{
+    
+    for(let i=Math.floor(data.length/2);i>=0;i--){
+        await heapify(data,setData,time,active,setActive, data.length -1,i);
+    }
+    for(let i=349;i>=0;i--){
+        //swap
+        const temp = data[i];
+        data[i] = data[0];
+        data[0]=temp;
+        //to change colors of the bars
+        let newActive = [...active];
+        newActive=[i,0];
+        setActive(newActive);
+        //to wait
+        setData([...data]);
+        await sleep(time);
+
+        //to surface maximum 
+        await heapify(data,setData,time,active,setActive,i,0);
+    }
+    setData([...data]);
+    sortingComplete(data,setData,time,active,setActive);
+}
+
+const heapify= async (data,setData,time,active,setActive,  size,i)=>{
+    if(i> size){
+        return;
+    }
+    let left = (i*2)+1;
+    let right = (i*2)+2;
+    let largest = i;
+    if(left < size){
+        if(data[largest]< data[left]){
+            largest = left;
+        }
+    }
+    if(right < size){
+        if(data[largest]< data[right]){
+            largest = right;
+        }
+    }
+    if(largest != i){
+        const temp = data[i];
+        data[i] = data[largest];
+        data[largest] = temp;
+        
+        //to change colors of the bars
+        let newActive = [...active];
+        newActive=[i,largest];
+        setActive(newActive);
+        //to wait
+        setData([...data]);
+        await heapify(data,setData,time,active,setActive,size,largest);
+        await sleep(time);
+    }
+}
+
 //triger for merge sort
 const beginMergeSort=async (data,setData,time ,active,setActive)=>{
     // console.log(data.length);
@@ -373,4 +432,4 @@ const beginSort = (data,setData)=>{
     sort(data,0,data.length);
     setData([...data]);
 }
-export {bubbleSort,cockTailSort,selectionSort,insertionSort,beginMergeSort as mergeSort,beginQuickSort as quickSort,shellSort,beginSort as sort};//,selectionSort;
+export {bubbleSort,cockTailSort,selectionSort,insertionSort,beginMergeSort as mergeSort,beginQuickSort as quickSort,shellSort,beginSort as sort,beginHeapSort as heapSort};//,selectionSort;

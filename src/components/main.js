@@ -1,7 +1,7 @@
 import Header from "./header";
 import Content from "./content";
 import {useState} from 'react';
-import {bubbleSort,selectionSort,insertionSort,mergeSort, quickSort, cockTailSort,shellSort,sort} from '../algorithms/algorithms';
+import {bubbleSort,selectionSort,insertionSort,mergeSort, quickSort, cockTailSort,shellSort,sort,heapSort} from '../algorithms/algorithms';
 
 const Main = ()=>{
     const [data,setData] = useState([]);
@@ -47,6 +47,7 @@ const Main = ()=>{
                 quickSort={()=>quickSort(data,setData,time ,active,setActive)}
                 cockTailSort={()=>cockTailSort(data,setData,time,active,setActive)}
                 shellSort = {()=>shellSort(data,setData,time,active,setActive)}
+                heapSort = {()=>heapSort(data,setData,time,active,setActive)}
             />
             <Content data={data} active={active} />
         </>
